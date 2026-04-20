@@ -1,0 +1,85 @@
+{
+  "common": {
+    "appName": "StockMate",
+    "tagline": "Inventory, under control.",
+    "login": "Login",
+    "logout": "Logout",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search...",
+    "loading": "Loading...",
+    "noData": "No items found.",
+    "confirmDelete": "Are you sure? This cannot be undone.",
+    "confirm": "Confirm",
+    "actions": "Actions",
+    "error": {
+      "required": "This field is required.",
+      "duplicateSKU": "SKU already exists.",
+      "negativeQty": "Quantity cannot be negative.",
+      "serverError": "Something went wrong. Please try again."
+    }
+  },
+  "auth": {
+    "loginTitle": "Admin Login",
+    "email": "Email Address",
+    "password": "Password",
+    "loginButton": "Login",
+    "loginSuccess": "Login successful",
+    "loginError": "Invalid email or password",
+    "logoutSuccess": "Logged out successfully"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalItems": "Total Items",
+    "available": "Available",
+    "notAvailable": "Not Available",
+    "lowStock": "Low Stock",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No recent activity."
+  },
+  "inventory": {
+    "listTitle": "Inventory List",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "itemName": "Item Name",
+    "sku": "SKU / Item Code",
+    "category": "Category",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "status": "Status",
+    "lastUpdated": "Last Updated",
+    "description": "Description / Notes",
+    "lowStockThreshold": "Low Stock Threshold",
+    "searchPlaceholder": "Search by name or SKU...",
+    "filterByStatus": "Filter by Status",
+    "filterByCategory": "Filter by Category",
+    "all": "All",
+    "statusAvailable": "Available",
+    "statusNotAvailable": "Not Available",
+    "statusLowStock": "Low Stock",
+    "units": {
+      "pcs": "pcs",
+      "kg": "kg",
+      "box": "box",
+      "litre": "litre",
+      "set": "set"
+    },
+    "successAdd": "Item registered successfully.",
+    "successEdit": "Item updated successfully.",
+    "successDelete": "Item deleted.",
+    "confirmDelete": "Are you sure you want to delete this item? This action cannot be undone.",
+    "addCategory": "+ Add Category",
+    "newCategoryName": "New Category Name (EN)",
+    "newCategoryNameJP": "New Category Name (JP)"
+  },
+  "activityLog": {
+    "created": "Created",
+    "updated": "Updated",
+    "deleted": "Deleted",
+    "changedBy": "Changed By",
+    "timestamp": "Time",
+    "item": "Item"
+  }
+}

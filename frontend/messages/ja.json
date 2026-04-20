@@ -1,0 +1,85 @@
+{
+  "common": {
+    "appName": "ストックメイト",
+    "tagline": "在庫を、かんたん管理。",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "save": "保存する",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "search": "検索...",
+    "loading": "読み込み中...",
+    "noData": "アイテムが見つかりません。",
+    "confirmDelete": "本当に削除しますか？元に戻せません。",
+    "confirm": "確認",
+    "actions": "操作",
+    "error": {
+      "required": "この項目は必須です。",
+      "duplicateSKU": "このSKUはすでに使用されています。",
+      "negativeQty": "数量は0以上を入力してください。",
+      "serverError": "エラーが発生しました。もう一度お試しください。"
+    }
+  },
+  "auth": {
+    "loginTitle": "管理者ログイン",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "loginButton": "ログイン",
+    "loginSuccess": "ログインしました",
+    "loginError": "メールアドレスまたはパスワードが正しくありません",
+    "logoutSuccess": "ログアウトしました"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "totalItems": "総アイテム数",
+    "available": "利用可能",
+    "notAvailable": "利用不可",
+    "lowStock": "在庫不足",
+    "recentActivity": "最近の操作",
+    "noActivity": "最近の操作はありません。"
+  },
+  "inventory": {
+    "listTitle": "在庫一覧",
+    "addItem": "アイテムを追加",
+    "editItem": "アイテムを編集",
+    "itemName": "アイテム名",
+    "sku": "SKU / 品番",
+    "category": "カテゴリー",
+    "quantity": "数量",
+    "unit": "単位",
+    "status": "ステータス",
+    "lastUpdated": "最終更新",
+    "description": "説明 / メモ",
+    "lowStockThreshold": "在庫不足しきい値",
+    "searchPlaceholder": "アイテム名またはSKUで検索...",
+    "filterByStatus": "ステータスで絞り込む",
+    "filterByCategory": "カテゴリーで絞り込む",
+    "all": "すべて",
+    "statusAvailable": "利用可能",
+    "statusNotAvailable": "利用不可",
+    "statusLowStock": "在庫不足",
+    "units": {
+      "pcs": "個",
+      "kg": "kg",
+      "box": "箱",
+      "litre": "リットル",
+      "set": "セット"
+    },
+    "successAdd": "アイテムを登録しました。",
+    "successEdit": "アイテムを更新しました。",
+    "successDelete": "アイテムを削除しました。",
+    "confirmDelete": "このアイテムを削除してもよろしいですか？この操作は元に戻せません。",
+    "addCategory": "+ カテゴリーを追加",
+    "newCategoryName": "新しいカテゴリー名（英語）",
+    "newCategoryNameJP": "新しいカテゴリー名（日本語）"
+  },
+  "activityLog": {
+    "created": "作成",
+    "updated": "更新",
+    "deleted": "削除",
+    "changedBy": "操作者",
+    "timestamp": "日時",
+    "item": "アイテム"
+  }
+}
