@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getAllCategories, createCategory, updateCategory, deleteCategory } from "../controller/category.controller.js";
-import { validate } from "../../middlewares/validate.js";
-import { protect } from "../../middlewares/auth.js";
+import { validate } from "../../../middlewares/validate.js";
+import { protect } from "../../../middlewares/auth.js";
 import { createCategorySchema, updateCategorySchema } from "../schema/category.schema.js";
 
 const router = Router();

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Category } from "../model/category.model.js";
-import { sendSuccess, sendNotFound, sendConflict } from "../../utils/apiResponse.js";
+import { sendSuccess, sendNotFound, sendConflict } from "../../../utils/apiResponse.js";
 
 export const getAllCategories = async (_req: Request, res: Response): Promise<void> => {
   const categories = await Category.find().sort({ name_en: 1 });

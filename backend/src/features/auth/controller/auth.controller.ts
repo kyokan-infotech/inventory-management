@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Admin } from "../model/admin.model.js";
-import { sendSuccess, sendUnauthorized, sendError } from "../../utils/apiResponse.js";
-import { generateToken } from "../../utils/jwt.js";
+import { sendSuccess, sendUnauthorized, sendError } from "../../../utils/apiResponse.js";
+import { generateToken } from "../../../utils/jwt.js";
 import { loginSchema } from "../schema/auth.schema.js";
 
 export const login = async (req: Request, res: Response): Promise<void> => {

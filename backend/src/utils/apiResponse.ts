@@ -1,14 +1,10 @@
 import { Response } from "express";
 
-export interface ApiResponseData {
-  [key: string]: unknown;
-}
-
-export const sendSuccess = (res: Response, message: string, data: ApiResponseData | null = null): void => {
+export const sendSuccess = (res: Response, message: string, data: any = null): void => {
   res.status(200).json({ success: true, message, data });
 };
 
-export const sendCreated = (res: Response, message: string, data: ApiResponseData | null = null): void => {
+export const sendCreated = (res: Response, message: string, data: any = null): void => {
   res.status(201).json({ success: true, message, data });
 };
 
@@ -46,7 +42,7 @@ export interface PaginationMeta {
 export const sendPaginated = (
   res: Response,
   message: string,
-  data: ApiResponseData | ApiResponseData[],
+  data: any,
   meta: PaginationMeta
 ): void => {
   res.status(200).json({ success: true, message, data, meta });

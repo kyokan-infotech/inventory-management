@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getActivityLogs } from "../controller/activityLog.controller.js";
-import { protect } from "../../middlewares/auth.js";
+import { protect } from "../../../middlewares/auth.js";
 
 const router = Router();
 

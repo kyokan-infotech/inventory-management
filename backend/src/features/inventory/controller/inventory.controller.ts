@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { InventoryItem } from "../model/inventory.model.js";
 import { createInventorySchema, updateInventorySchema, toggleStatusSchema, listQuerySchema, ToggleStatusInput } from "../schema/inventory.schema.js";
 import { ActivityLog } from "../../activityLog/model/activityLog.model.js";
-import { sendSuccess, sendNotFound, sendConflict, sendBadRequest } from "../../../utils/apiResponse.js";
+import { sendSuccess, sendNotFound, sendConflict, sendBadRequest, sendPaginated, PaginationMeta } from "../../../utils/apiResponse.js";
 
 export const getAllInventory = async (req: Request, res: Response): Promise<void> => {
   const query = listQuerySchema.safeParse(req.query);
@@ -36,18 +36,14 @@ export const getAllInventory = async (req: Request, res: Response): Promise<void
   const sort: Record<string, 1 | -1> = { [sortBy]: order === "asc" ? 1 : -1 };
 
   const [items, total] = await Promise.all([
-    InventoryItem.find(filter).sort(sort).skip(skip).limit(limit).populate("category_id"),
-    InventoryItem.countDocuments(filter),
+    InventoryItem.find(filter as any).sort(sort).skip(skip).limit(limit).populate("category_id"),
+    InventoryItem.countDocuments(filter as any),
   ]);
 
   const totalPages = Math.ceil(total / limit);
 
-  sendSuccess(res, "Items fetched", items, {
-    page,
-    limit,
-    total,
-    totalPages,
-  });
+  const meta: PaginationMeta = { page, limit, total, totalPages };
+  sendPaginated(res, "Items fetched", items, meta);
 };
 
 export const getInventoryById = async (req: Request, res: Response): Promise<void> => {
@@ -134,7 +130,7 @@ export const updateInventory = async (req: Request, res: Response): Promise<void
   }
 
   if (name) item.name = name;
-  if (category_id) item.category_id = category_id;
+  if (category_id) item.category_id = new mongoose.Types.ObjectId(category_id);
   if (quantity !== undefined) item.quantity = quantity;
   if (unit) item.unit = unit;
   if (lowStockThreshold !== undefined) item.lowStockThreshold = lowStockThreshold ?? null;
