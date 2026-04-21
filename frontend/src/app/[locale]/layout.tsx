@@ -2,7 +2,15 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import Navbar from "@/components/Navbar";
+import { AppSidebar } from "@/components/AppSidebar";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { 
+  SidebarProvider, 
+  SidebarInset, 
+  SidebarTrigger 
+} from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 export default function LocaleLayout({
@@ -14,23 +22,29 @@ export default function LocaleLayout({
   const isAuthPage = pathname?.includes("/login") || pathname?.includes("/register");
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      {!isAuthPage && <Navbar />}
-      <main className={cn(
-        "flex-1",
-        !isAuthPage ? "animate-in fade-in slide-in-from-bottom-2 duration-500" : ""
-      )}>
-        {children}
-      </main>
-      {!isAuthPage && (
-        <footer className="border-t border-border py-4 px-6 text-center text-xs text-muted-foreground flex items-center justify-between">
-           <span>&copy; 2026 StockMate</span>
-           <div className="flex gap-4">
-              <span className="font-medium hover:text-foreground cursor-pointer transition-colors">Privacy</span>
-              <span className="font-medium hover:text-foreground cursor-pointer transition-colors">Terms</span>
-           </div>
-        </footer>
-      )}
-    </div>
+    <SidebarProvider>
+      <TooltipProvider>
+        {!isAuthPage && <AppSidebar />}
+        <SidebarInset className="flex flex-col h-svh overflow-y-auto overflow-x-hidden bg-background">
+          {!isAuthPage && (
+            <header className="flex h-14 shrink-0 items-center justify-between border-b border-border/50 px-6 bg-background/50 backdrop-blur-sm sticky top-0 z-30">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger className="-ml-1 h-8 w-8" />
+              </div>
+              <div className="flex items-center gap-4">
+                <LanguageSwitcher />
+                <ThemeToggle />
+              </div>
+            </header>
+          )}
+          <div className={cn(
+            "flex-1 w-full",
+            !isAuthPage ? "animate-in fade-in slide-in-from-bottom-2 duration-500" : ""
+          )}>
+            {children}
+          </div>
+        </SidebarInset>
+      </TooltipProvider>
+    </SidebarProvider>
   );
 }

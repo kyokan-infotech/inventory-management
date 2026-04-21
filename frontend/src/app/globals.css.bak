@@ -1,0 +1,308 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ─── Tailwind v4 Theme Tokens ───────────────────────────────────────────────
+   --color-* → generates bg-*, text-*, border-*, ring-* utilities
+   --radius-* → generates rounded-* utilities
+   --font-*   → generates font-* utilities
+ ─────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --font-sans: var(--font-geist-sans), Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Courier New", monospace;
+
+  /* Brand color palette - Vercel Geist System */
+  --color-brand-black:    #171717;
+  --color-brand-gray-900: #171717;
+  --color-brand-gray-800: #262626;
+  --color-brand-gray-600: #4d4d4d;
+  --color-brand-gray-500: #666666;
+  --color-brand-gray-400: #808080;
+  --color-brand-gray-200: #d4d4d4;
+  --color-brand-gray-100: #ebebeb;
+  --color-brand-gray-50:  #fafafa;
+
+  /* Workflow accent colors */
+  --color-develop: #0a72ef;
+  --color-preview: #de1d8d;
+  --color-ship:    #ff5b4f;
+
+  /* Interactive colors */
+  --color-link-blue: #0072f5;
+  --color-focus-blue: hsla(212, 100%, 48%, 1);
+
+  /* Border-radius scale */
+  --radius-micro: 2px;
+  --radius-subtle: 4px;
+  --radius-vercel-std: 6px;
+  --radius-vercel-card: 8px;
+  --radius-vercel-image: 12px;
+  --radius-large: 64px;
+  --radius-xl: 100px;
+  --radius-vercel-pill: 9999px;
+
+  /* Spacing Scale (Base 8px) */
+  --spacing-base: 8px;
+  --spacing-1: 1px;
+  --spacing-2: 2px;
+  --spacing-3: 3px;
+  --spacing-4: 4px;
+  --spacing-5: 5px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-16: 16px;
+  --spacing-32: 32px;
+  --spacing-36: 36px;
+  --spacing-40: 40px;
+
+  /* Typography Negative Tracking (Geist Principle) */
+  --tracking-tight-48: -0.15em; /* Approximately -2.4px at 48px */
+  --tracking-tight-32: -0.04em; /* Approximately -1.28px at 32px */
+  --tracking-tight-24: -0.04em; /* Approximately -0.96px at 24px */
+  --tracking-tight-16: -0.02em; /* Approximately -0.32px at 16px */
+}
+
+/* ─── Shadow Design Tokens ─── */
+:root {
+  --shadow-border:       0px 0px 0px 1px rgba(0, 0, 0, 0.08);
+  --shadow-border-light: 0px 0px 0px 1px rgb(235, 235, 235);
+  --shadow-elevation:    0px 2px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card:
+    0px 0px 0px 1px rgba(0, 0, 0, 0.08),
+    0px 2px 2px rgba(0, 0, 0, 0.04),
+    0px 8px 8px -8px rgba(0, 0, 0, 0.04),
+    0px 0px 0px 1px #fafafa inset;
+  --shadow-focus-ring:   0 0 0 2px #ffffff, 0 0 0 4px hsla(212, 100%, 48%, 1);
+}
+
+/* ─── Custom Utilities ─── */
+@utility shadow-vercel-border {
+  box-shadow: var(--shadow-border);
+}
+@utility shadow-vercel-border-light {
+  box-shadow: var(--shadow-border-light);
+}
+@utility shadow-vercel-card {
+  box-shadow: var(--shadow-card);
+}
+@utility shadow-vercel-elevation {
+  box-shadow: var(--shadow-elevation);
+}
+@utility shadow-focus-ring {
+  box-shadow: var(--shadow-focus-ring);
+}
+
+@utility geist-headline-48 {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.17;
+  letter-spacing: -2.4px;
+}
+@utility geist-headline-32 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -1.28px;
+}
+@utility geist-headline-24 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: -0.96px;
+}
+
+/* ─── Page Containers ─── */
+@utility page-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* ─── Base Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-feature-settings: "liga" 1, "tnum" 1;
+}
+
+body {
+  background-color: #ffffff;
+  color: #171717;
+  overflow-x: hidden;
+}
+
+/* ─── Button: Primary ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #171717;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.43;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #2c2c2c;
+}
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Button: Ghost ─── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: #171717;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.43;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-border-light);
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.btn-ghost:hover:not(:disabled) {
+  background-color: #fafafa;
+  box-shadow: var(--shadow-border);
+}
+.btn-ghost:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.btn-ghost:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* ─── Form Input ─── */
+.input {
+  width: 100%;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #171717;
+  background-color: #ffffff;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: var(--shadow-border);
+  outline: none;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.input::placeholder {
+  color: #808080;
+}
+.input:focus {
+  box-shadow: var(--shadow-border);
+  outline: none;
+  border: none;
+}
+.input:focus-visible {
+  box-shadow: var(--shadow-border), var(--shadow-focus-ring);
+}
+
+/* ─── Label ─── */
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #171717;
+  margin-bottom: 6px;
+}
+
+/* ─── Card ─── */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+}
+
+/* ─── Badge ─── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.33;
+  padding: 2px 10px;
+  border-radius: 9999px;
+}
+
+/* ─── Grid Background ─── */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, #ebebeb 1px, transparent 1px),
+    linear-gradient(to bottom, #ebebeb 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ─── Navigation ─── */
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666666;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+.nav-link:hover {
+  color: #171717;
+  background-color: #fafafa;
+}
+.nav-link-active {
+  color: #171717;
+  background-color: #fafafa;
+  font-weight: 600;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ebebeb;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #808080;
+}

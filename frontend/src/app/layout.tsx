@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -34,10 +35,17 @@ export default function RootLayout({
           fontFamily: `var(--geist-sans), Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`,
         }}
       >
-        <TooltipProvider>
-          {children}
-          <Toaster position="bottom-right" closeButton richColors />
-        </TooltipProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>
+            {children}
+            <Toaster position="bottom-right" closeButton richColors />
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
