@@ -203,3 +203,58 @@ export const toggleStatus = async (req: Request, res: Response): Promise<void> =
   await item.populate("category_id");
   sendSuccess(res, "Status updated", item);
 };
+
+export const getInventoryStats = async (req: Request, res: Response): Promise<void> => {
+  const filter = { deletedAt: null };
+
+  const [totalItems, lowStockItems, outOfStockItems, categoryStats] = await Promise.all([
+    InventoryItem.countDocuments(filter),
+    InventoryItem.countDocuments({
+      ...filter,
+      $expr: {
+        $and: [
+          { $gt: ["$lowStockThreshold", 0] },
+          { $lte: ["$quantity", "$lowStockThreshold"] },
+          { $gt: ["$quantity", 0] }
+        ]
+      }
+    }),
+    InventoryItem.countDocuments({ ...filter, quantity: 0 }),
+    InventoryItem.aggregate([
+      { $match: filter },
+      {
+        $group: {
+          _id: "$category_id",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "_id",
+          foreignField: "_id",
+          as: "category"
+        }
+      },
+      { $unwind: "$category" },
+      {
+        $project: {
+          _id: 1,
+          name_en: "$category.name_en",
+          name_jp: "$category.name_jp",
+          count: 1
+        }
+      }
+    ])
+  ]);
+
+  const stats = {
+    totalItems,
+    lowStockItems,
+    outOfStockItems,
+    availableItems: totalItems - outOfStockItems,
+    categoryDistribution: categoryStats
+  };
+
+  sendSuccess(res, "Inventory stats fetched", stats);
+};

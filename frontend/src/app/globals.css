@@ -1,87 +1,101 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Tailwind v4 Theme Configuration ─────────────────────────────────────── */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  
-  /* Antigravity Palette */
-  --color-brand-primary: oklch(0.7 0.2 250); /* Electric Cyan */
-  --color-brand-secondary: oklch(0.6 0.2 280); /* Deep Blue/Purple */
-  --color-brand-accent: oklch(0.8 0.15 190); /* Bio-Lime */
-  
-  --color-glass-surface: rgba(255, 255, 255, 0.03);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
-  
-  /* Depth Shadows */
-  --shadow-antigravity: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --shadow-glass-hover: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(255, 255, 255, 0.1);
-  
-  /* Perspective Utilities */
-  --perspective-distant: 1000px;
-  --perspective-near: 500px;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Color Mapping for Shadcn Variables */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Border Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) * 0.6);
 }
 
 :root {
-  --background: oklch(0.1 0.02 240); /* Deep Space Blue */
-  --foreground: oklch(0.95 0.01 240);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: oklch(0.98 0.01 240);
-    --foreground: oklch(0.15 0.02 240);
-    --color-glass-surface: rgba(255, 255, 255, 0.6);
-    --color-glass-border: rgba(0, 0, 0, 0.08);
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
   }
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  perspective: var(--perspective-distant);
-}
-
-/* Glassmorphism Utility */
-.glass-panel {
-  background: var(--color-glass-surface);
-  backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid var(--color-glass-border);
-  box-shadow: var(--shadow-antigravity);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel:hover {
-  box-shadow: var(--shadow-glass-hover);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Isometric Transformation Utilities */
-.isometric-right {
-  transform: rotateX(51deg) rotateZ(43deg);
-  transform-style: preserve-3d;
-}
-
-.isometric-left {
-  transform: rotateX(51deg) rotateZ(-43deg);
-  transform-style: preserve-3d;
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
 }
 
 @layer utilities {
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  .grid-bg {
+    background-image: 
+      radial-gradient(circle at 2px 2px, var(--color-border) 1px, transparent 0);
+    background-size: 24px 24px;
+    background-color: var(--background);
   }
 }

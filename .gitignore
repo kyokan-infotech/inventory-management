@@ -1,0 +1,5 @@
+.agents/
+.codegraph/
+.vscode/
+.claude/
+node_modules/

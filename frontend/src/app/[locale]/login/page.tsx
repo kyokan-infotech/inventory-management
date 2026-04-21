@@ -1,106 +1,161 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { apiPost } from "@/lib/api";
-import { translations } from "@/lib/translations";
-import { Package } from "lucide-react";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { translations } from '@/lib/translations';
+import { login } from '@/lib/api';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Eye, EyeOff, Loader2, LogIn, Warehouse } from 'lucide-react';
 
-export default function LoginPage() {
+export default function LoginPage({ params }: { params: Promise<{ locale: string }> }) {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { locale: localeParam } = React.use(params);
+  const locale = (localeParam || 'en') as 'en' | 'ja';
+  const t = translations.auth;
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    if (isLoading) return;
+
+    setIsLoading(true);
+    setError(null);
 
     try {
-      const res = await apiPost("/auth/login", { email, password });
-      if (res.success && res.data) {
-        localStorage.setItem("stockmate_token", res.data.token);
-        router.push("/en/dashboard");
+      const response = await login(formData.email, formData.password);
+      if (response.success && response.data) {
+        localStorage.setItem('stockmate_token', response.data.token);
+        router.push(`/${locale}/dashboard`);
       } else {
-        setError(translations.auth.loginError.en);
+        setError(response.message || t.error[locale]);
       }
-    } catch {
-      setError(translations.auth.loginError.en);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t.error[locale]);
+    } finally {
+      setIsLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800">
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 bg-black dark:bg-white rounded-2xl flex items-center justify-center mb-4">
-            <Package className="w-8 h-8 text-white dark:text-black" />
+    <div className="min-h-screen grid-bg flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-8">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
+            <Warehouse className="h-7 w-7 text-primary-foreground" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {translations.auth.loginTitle.en}
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            StockMate Admin
+          <h1 className="text-3xl font-bold tracking-tight">StockMate</h1>
+          <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest px-2 py-0.5 border border-border/50 rounded bg-muted/30">
+            Professional Inventory
           </p>
         </div>
-        
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              {translations.auth.email.en}
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 transition-all"
-              placeholder="admin@example.com"
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              {translations.auth.password.en}
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 transition-all"
-              placeholder="••••••••"
-              minLength={8}
-              required
-            />
-          </div>
-          
-          {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+
+        <Card className="border-border shadow-none bg-background animate-in zoom-in-95 duration-500">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">{t.loginTitle[locale]}</CardTitle>
+            <CardDescription>
+              {t.loginSubtitle[locale]}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <Alert variant="destructive" className="animate-in slide-in-from-top-2 duration-300">
+                  <AlertDescription className="text-sm">{error}</AlertDescription>
+                </Alert>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="identifier" className="text-sm font-medium">
+                  {t.email[locale]}
+                </Label>
+                <Input
+                  id="identifier"
+                  placeholder="john@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  disabled={isLoading}
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">{t.password[locale]}</Label>
+                </div>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    disabled={isLoading}
+                    required
+                    className="h-11 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-0 text-muted-foreground hover:text-foreground transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full h-11 font-medium mt-2" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t.loggingIn[locale]}
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    {t.loginButton[locale]}
+                  </>
+                )}
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4 pt-2">
+            <div className="relative w-full">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground whitespace-nowrap">
+                  {t.noAccount[locale]}
+                </span>
+              </div>
             </div>
-          )}
-          
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-black dark:bg-white text-white dark:text-black font-semibold py-3 px-4 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                {translations.common.loading}
-              </span>
-            ) : (
-              translations.auth.loginButton.en
-            )}
-          </button>
-        </form>
+            <Button
+              variant="outline"
+              className="w-full h-11"
+              onClick={() => router.push(`/${locale}/register`)}
+              disabled={isLoading}
+            >
+              {t.registerLink[locale]}
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <p className="text-center text-xs text-muted-foreground/60 animate-in fade-in duration-1000">
+          &copy; {new Date().getFullYear()} StockMate Inventory Systems.
+        </p>
       </div>
     </div>
   );
