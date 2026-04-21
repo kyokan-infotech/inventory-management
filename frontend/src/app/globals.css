@@ -89,6 +89,9 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+  .container {
+    @apply mx-auto px-4 md:px-6 lg:px-8;
+  }
 }
 
 @layer utilities {
