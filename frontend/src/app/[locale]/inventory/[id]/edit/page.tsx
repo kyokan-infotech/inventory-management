@@ -259,7 +259,13 @@ export default function EditInventoryPage({ params }: { params: Promise<{ locale
                   onValueChange={(val) => form.setValue("category_id", val ?? "", { shouldValidate: true })}
                 >
                   <SelectTrigger className="h-10 shadow-none border-border focus-visible:ring-1 focus-visible:ring-primary w-full">
-                    <SelectValue placeholder={t.selectCategory[lang]} />
+                    <SelectValue placeholder={t.selectCategory[lang]}>
+                      {categories.find(c => c._id === form.watch("category_id")) 
+                        ? (lang === 'ja' 
+                            ? categories.find(c => c._id === form.watch("category_id"))?.name_jp 
+                            : categories.find(c => c._id === form.watch("category_id"))?.name_en)
+                        : null}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((cat) => (
