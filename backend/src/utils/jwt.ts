@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AdminPayload } from "../types/express";
+import { AdminPayload } from "../types/express.js";
 
 export const generateToken = (payload: AdminPayload): string => {
   const secret = process.env.JWT_SECRET || "fallback_secret";

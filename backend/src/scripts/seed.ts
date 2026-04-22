@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { Category } from "../features/category/model/category.model";
-import { InventoryItem } from "../features/inventory/model/inventory.model";
+import { Category } from "../features/category/model/category.model.js";
+import { InventoryItem } from "../features/inventory/model/inventory.model.js";
 
 dotenv.config({ path: ".env.development" });
 
